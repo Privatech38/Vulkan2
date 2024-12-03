@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using Vulkan2Blazor;
 using Vulkan2Blazor.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +9,15 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 var app = builder.Build();
+
+// Configure database
+var connectionString =
+    builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException("Connection string"
+                                           + "'DefaultConnection' not found.");
+
+builder.Services.AddDbContext<Vulkan2BlazorContext>(options =>
+    options.UseSqlServer(connectionString));
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
