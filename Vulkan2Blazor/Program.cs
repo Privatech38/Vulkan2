@@ -1,8 +1,16 @@
 using Microsoft.EntityFrameworkCore;
 using Vulkan2Blazor;
 using Vulkan2Blazor.Components;
+using Microsoft.Extensions.DependencyInjection;
+using Vulkan2Blazor.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContextFactory<Vulkan2Context>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Vulkan2Context") ?? throw new InvalidOperationException("Connection string 'Vulkan2Context' not found.")));
+
+builder.Services.AddQuickGridEntityFrameworkAdapter();
+
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
@@ -10,21 +18,13 @@ builder.Services.AddRazorComponents()
 
 var app = builder.Build();
 
-// Configure database
-var connectionString =
-    builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? throw new InvalidOperationException("Connection string"
-                                           + "'DefaultConnection' not found.");
-
-builder.Services.AddDbContext<Vulkan2BlazorContext>(options =>
-    options.UseSqlServer(connectionString));
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+    app.UseMigrationsEndPoint();
 }
 
 app.UseHttpsRedirection();
