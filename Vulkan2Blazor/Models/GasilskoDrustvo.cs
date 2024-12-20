@@ -4,8 +4,8 @@ namespace Vulkan2Blazor.Models;
 
 public enum TipDrustva
 {
-    TERITORIALNO,
-    INDUSTRIJSKO
+    Teritorialno,
+    Industrijsko
 }
 
 public class GasilskoDrustvo
