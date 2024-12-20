@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Vulkan2Blazor.Models.ClanAttributes;
 
 namespace Vulkan2Blazor.Models;
 
@@ -61,5 +62,7 @@ public class Clan
     
     [RegularExpression(@"^\d{8}$", ErrorMessage = "Davčna številka mora biti dolga točno 8 števk.")]
     public string? DavcnaStevilka { get; set; }
+    
+    public ICollection<Delo> OpravljenoDelo { get; }
     
 }
