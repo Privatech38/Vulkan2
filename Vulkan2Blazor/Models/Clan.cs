@@ -65,4 +65,6 @@ public class Clan
     
     public ICollection<Delo> OpravljenoDelo { get; }
     
+    public ICollection<ZdravstveniPregled> ZdravstveniPregledi { get; }
+    
 }
