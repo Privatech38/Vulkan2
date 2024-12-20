@@ -1,0 +1,74 @@
+@page "/clani/create"
+@using Microsoft.EntityFrameworkCore
+@using Vulkan2Blazor.Models
+@inject IDbContextFactory<Vulkan2Blazor.Data.Vulkan2Context> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h2>Clan</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="Clan" OnValidSubmit="AddClan" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" role="alert"/>
+            <div class="mb-3">
+                <label for="ime" class="form-label">Ime:</label> 
+                <InputText id="ime" @bind-Value="Clan.Ime" class="form-control" /> 
+                <ValidationMessage For="() => Clan.Ime" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="priimek" class="form-label">Priimek:</label> 
+                <InputText id="priimek" @bind-Value="Clan.Priimek" class="form-control" /> 
+                <ValidationMessage For="() => Clan.Priimek" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="datumrojstva" class="form-label">DatumRojstva:</label> 
+                <InputDate id="datumrojstva" @bind-Value="Clan.DatumRojstva" class="form-control" /> 
+                <ValidationMessage For="() => Clan.DatumRojstva" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="spol" class="form-label">Spol:</label> 
+                <InputText id="spol" @bind-Value="Clan.Spol" class="form-control" /> 
+                <ValidationMessage For="() => Clan.Spol" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="emso" class="form-label">EMSO:</label> 
+                <InputText id="emso" @bind-Value="Clan.EMSO" class="form-control" /> 
+                <ValidationMessage For="() => Clan.EMSO" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label> 
+                <InputText id="email" @bind-Value="Clan.Email" class="form-control" /> 
+                <ValidationMessage For="() => Clan.Email" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="telefon" class="form-label">Telefon:</label> 
+                <InputText id="telefon" @bind-Value="Clan.Telefon" class="form-control" /> 
+                <ValidationMessage For="() => Clan.Telefon" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/clani">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private Clan Clan { get; set; } = new();
+
+    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task AddClan()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Clan.Add(Clan);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/clani");
+    }
+}

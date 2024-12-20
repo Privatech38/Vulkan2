@@ -1,0 +1,119 @@
+@page "/clani/edit"
+@using Microsoft.EntityFrameworkCore
+@using Vulkan2Blazor.Models
+@inject IDbContextFactory<Vulkan2Blazor.Data.Vulkan2Context> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h2>Clan</h2>
+<hr />
+@if (Clan is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="Clan" OnValidSubmit="UpdateClan" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary role="alert"/>
+                <input type="hidden" name="Clan.ClanId" value="@Clan.ClanId" />
+                <div class="mb-3">
+                    <label for="ime" class="form-label">Ime:</label>
+                    <InputText id="ime" @bind-Value="Clan.Ime" class="form-control" />
+                    <ValidationMessage For="() => Clan.Ime" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="priimek" class="form-label">Priimek:</label>
+                    <InputText id="priimek" @bind-Value="Clan.Priimek" class="form-control" />
+                    <ValidationMessage For="() => Clan.Priimek" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="datumrojstva" class="form-label">DatumRojstva:</label>
+                    <InputDate id="datumrojstva" @bind-Value="Clan.DatumRojstva" class="form-control" />
+                    <ValidationMessage For="() => Clan.DatumRojstva" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="spol" class="form-label">Spol:</label>
+                    <InputText id="spol" @bind-Value="Clan.Spol" class="form-control" />
+                    <ValidationMessage For="() => Clan.Spol" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="emso" class="form-label">EMSO:</label>
+                    <InputText id="emso" @bind-Value="Clan.EMSO" class="form-control" />
+                    <ValidationMessage For="() => Clan.EMSO" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <InputText id="email" @bind-Value="Clan.Email" class="form-control" />
+                    <ValidationMessage For="() => Clan.Email" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="telefon" class="form-label">Telefon:</label>
+                    <InputText id="telefon" @bind-Value="Clan.Telefon" class="form-control" />
+                    <ValidationMessage For="() => Clan.Telefon" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/clani">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    private int ClanId { get; set; }
+
+    [SupplyParameterFromForm]
+    private Clan? Clan { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        Clan ??= await context.Clan.FirstOrDefaultAsync(m => m.ClanId == ClanId);
+
+        if (Clan is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task UpdateClan()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Attach(Clan!).State = EntityState.Modified;
+
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!ClanExists(Clan!.ClanId))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/clani");
+    }
+
+    private bool ClanExists(int clanid)
+    {
+        using var context = DbFactory.CreateDbContext();
+        return context.Clan.Any(e => e.ClanId == clanid);
+    }
+}

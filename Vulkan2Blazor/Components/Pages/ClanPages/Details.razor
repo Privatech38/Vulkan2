@@ -1,0 +1,58 @@
+@page "/clani/details"
+@using Microsoft.EntityFrameworkCore
+@using Vulkan2Blazor.Models
+@inject IDbContextFactory<Vulkan2Blazor.Data.Vulkan2Context> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h2>Clan</h2>
+    <hr />
+    @if (clan is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Ime</dt>
+            <dd class="col-sm-10">@clan.Ime</dd>
+            <dt class="col-sm-2">Priimek</dt>
+            <dd class="col-sm-10">@clan.Priimek</dd>
+            <dt class="col-sm-2">DatumRojstva</dt>
+            <dd class="col-sm-10">@clan.DatumRojstva</dd>
+            <dt class="col-sm-2">Spol</dt>
+            <dd class="col-sm-10">@clan.Spol</dd>
+            <dt class="col-sm-2">EMSO</dt>
+            <dd class="col-sm-10">@clan.EMSO</dd>
+            <dt class="col-sm-2">Email</dt>
+            <dd class="col-sm-10">@clan.Email</dd>
+            <dt class="col-sm-2">Telefon</dt>
+            <dd class="col-sm-10">@clan.Telefon</dd>
+        </dl>
+        <div>
+            <a href="@($"/clani/edit?clanid={clan.ClanId}")">Edit</a> |
+            <a href="@($"/clani")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    private Clan? clan;
+
+    [SupplyParameterFromQuery]
+    private int ClanId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        clan = await context.Clan.FirstOrDefaultAsync(m => m.ClanId == ClanId);
+
+        if (clan is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}
