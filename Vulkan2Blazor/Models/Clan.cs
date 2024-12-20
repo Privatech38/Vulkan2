@@ -4,8 +4,8 @@ using Vulkan2Blazor.Models.ClanAttributes;
 namespace Vulkan2Blazor.Models;
 
 public enum Spol {
-    MOSKI,
-    ZENSKA
+    Moski,
+    Zenska
 }
 
 public class Clan
