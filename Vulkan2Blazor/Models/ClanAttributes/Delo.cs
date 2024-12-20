@@ -16,6 +16,7 @@ public class Delo
     public DateOnly Datum { get; set; }
     
     [Required]
+    [Range(0.01, float.MaxValue, ErrorMessage = "Stevilo ur mora biti pozitivno stevilo.")]
     public float SteviloUr { get; set; }
     
 }
