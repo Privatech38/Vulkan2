@@ -1,16 +1,20 @@
-﻿namespace Vulkan2Blazor.Models;
+﻿using Microsoft.Build.Framework;
+
+namespace Vulkan2Blazor.Models;
 
 public class Clanstvo
 {
     public int ClanstvoId { get; set; }
     
+    [Required]
     public Clan Clan { get; set; }
+    
+    [Required]
     public GasilskoDrustvo GasilskoDrustvo { get; set; }
     
+    [Required]
     public DateOnly OdDatum { get; set; }
-    public DateOnly DoDatum { get; set; }
     
-    public bool Aktiven { get; set; }
-    public string Polozaj { get; set; }
-    
+    [Required]
+    public DateOnly? DoDatum { get; set; }
 }

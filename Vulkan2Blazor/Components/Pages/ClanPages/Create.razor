@@ -31,8 +31,14 @@
                 <ValidationMessage For="() => Clan.DatumRojstva" class="text-danger" /> 
             </div>        
             <div class="mb-3">
-                <label for="spol" class="form-label">Spol:</label> 
-                <InputText id="spol" @bind-Value="Clan.Spol" class="form-control" /> 
+                <label for="spol" class="form-label">Spol:</label>
+                <InputSelect id="spol" @bind-Value="Clan.Spol" class="form-control">
+                    <option value="">Izberi spol</option>
+                    @foreach (var spol in Enum.GetValues(typeof(Spol)))
+                    {
+                        <option value="@spol">@spol</option>
+                    }
+                </InputSelect>
                 <ValidationMessage For="() => Clan.Spol" class="text-danger" /> 
             </div>        
             <div class="mb-3">
