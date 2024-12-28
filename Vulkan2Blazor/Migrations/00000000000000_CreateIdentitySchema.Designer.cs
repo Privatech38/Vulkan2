@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Vulkan2Blazor.Migrations
 {
     [DbContext(typeof(Vulkan2Context))]
-    [Migration("CreateIdentitySchema")]
+    [Migration("00000000000000_CreateIdentitySchema")]
     partial class CreateIdentitySchema
     {
         /// <inheritdoc />
@@ -21,7 +21,7 @@ namespace Vulkan2Blazor.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
 
-            modelBuilder.Entity("BlazorIdentity.Data.ApplicationUser", b =>
+            modelBuilder.Entity("Vulkan2Blazor.Data.ApplicationUser", b =>
             {
                 b.Property<string>("Id")
                     .HasColumnType("TEXT");
@@ -224,7 +224,7 @@ namespace Vulkan2Blazor.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
             {
-                b.HasOne("BlazorIdentity.Data.ApplicationUser", null)
+                b.HasOne("Vulkan2Blazor.Data.ApplicationUser", null)
                     .WithMany()
                     .HasForeignKey("UserId")
                     .OnDelete(DeleteBehavior.Cascade)
@@ -233,7 +233,7 @@ namespace Vulkan2Blazor.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
             {
-                b.HasOne("BlazorIdentity.Data.ApplicationUser", null)
+                b.HasOne("Vulkan2Blazor.Data.ApplicationUser", null)
                     .WithMany()
                     .HasForeignKey("UserId")
                     .OnDelete(DeleteBehavior.Cascade)
@@ -248,7 +248,7 @@ namespace Vulkan2Blazor.Migrations
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
-                b.HasOne("BlazorIdentity.Data.ApplicationUser", null)
+                b.HasOne("Vulkan2Blazor.Data.ApplicationUser", null)
                     .WithMany()
                     .HasForeignKey("UserId")
                     .OnDelete(DeleteBehavior.Cascade)
@@ -257,7 +257,7 @@ namespace Vulkan2Blazor.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
             {
-                b.HasOne("BlazorIdentity.Data.ApplicationUser", null)
+                b.HasOne("Vulkan2Blazor.Data.ApplicationUser", null)
                     .WithMany()
                     .HasForeignKey("UserId")
                     .OnDelete(DeleteBehavior.Cascade)
