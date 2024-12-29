@@ -162,6 +162,9 @@ namespace Vulkan2Blazor.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("ClanId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("text");
@@ -207,6 +210,8 @@ namespace Vulkan2Blazor.Migrations
                         .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClanId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -528,6 +533,15 @@ namespace Vulkan2Blazor.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Vulkan2Blazor.Data.ApplicationUser", b =>
+                {
+                    b.HasOne("Vulkan2Blazor.Models.Clan", "Clan")
+                        .WithMany()
+                        .HasForeignKey("ClanId");
+
+                    b.Navigation("Clan");
                 });
 
             modelBuilder.Entity("Vulkan2Blazor.Models.Cin", b =>
