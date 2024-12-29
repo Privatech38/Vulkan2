@@ -8,14 +8,15 @@
 
     <main>
         <div class="top-row px-4">
-            <div class="nav-item">
+            <div class="nav-container">
                 <AuthorizeView>
                     <Authorized>
-                        <NavLink class="nav-link" href="/Account/Manage">Manage Account</NavLink>
-                        <NavLink class="nav-link" href="/Account/Logout">Logout</NavLink>
+                        <NavLink href="/Account/Manage">Manage Account</NavLink>
+                        <NavLink href="/Account/Logout">Logout</NavLink>
                     </Authorized>
                     <NotAuthorized>
-                        <NavLink class="nav-link" href="/Account/Login">Login</NavLink>
+                        <NavLink href="/Account/Login">Login</NavLink>
+                        @* <NavLink href="/Account/Register">Register</NavLink> *@
                     </NotAuthorized>
                 </AuthorizeView>
             </div>
