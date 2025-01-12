@@ -1,4 +1,4 @@
-@page "/gasilskazvezas/edit"
+@page "/gasilskezveze/edit"
 @using Microsoft.EntityFrameworkCore
 @using Vulkan2Blazor.Models
 @inject IDbContextFactory<Vulkan2Blazor.Data.Vulkan2Context> DbFactory
@@ -74,7 +74,7 @@ else
 }
 
 <div>
-    <a href="/gasilskazvezas">Back to List</a>
+    <a href="/gasilskezveze">Back to List</a>
 </div>
 
 @code {
@@ -118,7 +118,7 @@ else
             }
         }
 
-        NavigationManager.NavigateTo("/gasilskazvezas");
+        NavigationManager.NavigateTo("/gasilskezveze");
     }
 
     private bool GasilskaZvezaExists(int gasilskazvezaid)

@@ -1,4 +1,4 @@
-@page "/gasilskazvezas/delete"
+@page "/gasilskezveze/delete"
 @using Microsoft.EntityFrameworkCore
 @using Vulkan2Blazor.Models
 @inject IDbContextFactory<Vulkan2Blazor.Data.Vulkan2Context> DbFactory
@@ -55,7 +55,7 @@
         </dl>
         <EditForm method="post" Model="gasilskazveza" OnValidSubmit="DeleteGasilskaZveza" FormName="delete" Enhance>
             <button type="submit" class="btn btn-danger" disabled="@(gasilskazveza is null)">Delete</button> |
-            <a href="/gasilskazvezas">Back to List</a>
+            <a href="/gasilskezveze">Back to List</a>
         </EditForm>
     }
 </div>
@@ -82,6 +82,6 @@
         using var context = DbFactory.CreateDbContext();
         context.GasilskaZveza.Remove(gasilskazveza!);
         await context.SaveChangesAsync();
-        NavigationManager.NavigateTo("/gasilskazvezas");
+        NavigationManager.NavigateTo("/gasilskezveze");
     }
 }
