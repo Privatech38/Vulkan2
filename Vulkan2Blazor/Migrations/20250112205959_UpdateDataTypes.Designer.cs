@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Vulkan2Blazor.Data;
@@ -11,9 +12,11 @@ using Vulkan2Blazor.Data;
 namespace Vulkan2Blazor.Migrations
 {
     [DbContext(typeof(Vulkan2Context))]
-    partial class Vulkan2ContextModelSnapshot : ModelSnapshot
+    [Migration("20250112205959_UpdateDataTypes")]
+    partial class UpdateDataTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
