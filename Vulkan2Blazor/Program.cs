@@ -7,6 +7,7 @@ using Vulkan2Blazor.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Vulkan2Blazor.Components.Account;
 using Vulkan2Blazor.Data;
+using Vulkan2Blazor.Seeders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,10 +41,10 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
     .AddDefaultTokenProviders();
 
 // Fallback authorization policy
-builder.Services.AddAuthorizationBuilder()
-    .SetFallbackPolicy(new AuthorizationPolicyBuilder()
-        .RequireAuthenticatedUser()
-        .Build());
+// builder.Services.AddAuthorizationBuilder()
+//     .SetFallbackPolicy(new AuthorizationPolicyBuilder()
+//         .RequireAuthenticatedUser()
+//         .Build());
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
@@ -72,5 +73,13 @@ app.MapRazorComponents<App>()
 
 // Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();
+    
+    
+// Seed the database with roles
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await RoleSeeder.SeedRoles(services);
+}
 
 app.Run();
