@@ -1,8 +1,10 @@
 @page "/gasilskezveze/delete"
+@using Microsoft.AspNetCore.Authorization
 @using Microsoft.EntityFrameworkCore
 @using Vulkan2Blazor.Models
 @inject IDbContextFactory<Vulkan2Blazor.Data.Vulkan2Context> DbFactory
 @inject NavigationManager NavigationManager
+@attribute [Authorize (Roles = "Admin")]
 
 <PageTitle>Delete</PageTitle>
 
