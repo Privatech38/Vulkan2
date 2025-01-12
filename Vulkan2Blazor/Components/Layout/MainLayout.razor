@@ -11,8 +11,14 @@
             <div class="nav-container">
                 <AuthorizeView>
                     <Authorized>
-                        <NavLink href="/Account/Manage">Manage Account</NavLink>
-                        <NavLink href="/Account/Logout">Logout</NavLink>
+                        <div class="auth-links">
+                            <NavLink href="/Account/Manage">Manage Account</NavLink>
+                            <form action="Account/Logout" method="post">
+                                <AntiforgeryToken/>
+                                <input type="hidden" name="ReturnUrl" value=""/>
+                                <button type="submit" class="nav-link">Logout</button>
+                            </form>
+                        </div>
                     </Authorized>
                     <NotAuthorized>
                         <NavLink href="/Account/Login">Login</NavLink>
