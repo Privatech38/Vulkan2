@@ -80,7 +80,7 @@ else
                 </div>
                 <div class="mb-3">
                     <label for="gasilskaZveza" class="form-label">Gasilska zveza:</label>
-                    <InputSelect id="gasilskaZveza" @bind-Value="" class="form-control">
+                    <InputSelect id="gasilskaZveza" @bind-Value="GasilskoDrustvo.GasilskaZveza" class="form-control">
                         <option value="">Izberi gasilsko zvezo</option>
                         @foreach (var gasilskaZveza in GasilskeZveze)
                         {
