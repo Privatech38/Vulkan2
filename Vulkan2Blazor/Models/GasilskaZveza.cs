@@ -21,15 +21,12 @@ public class GasilskaZveza
     public string Kraj { get; set; }
     
     // Kontakt
-    [DataType(DataType.EmailAddress)]
     [EmailAddress]
     public string? Email { get; set; }
     
-    [DataType(DataType.PhoneNumber)]
     [Phone]
     public string? Telefon { get; set; }
     
-    [DataType(DataType.Url)]
     [Url]
     public string? SpletnaStran { get; set; }
     

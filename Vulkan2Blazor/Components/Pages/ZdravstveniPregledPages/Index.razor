@@ -1,0 +1,38 @@
+@page "/zdravstvenipregledi"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using Vulkan2Blazor.Models.ClanAttributes
+@using Vulkan2Blazor.Data
+@implements IAsyncDisposable
+@inject IDbContextFactory<Vulkan2Blazor.Data.Vulkan2Context> DbFactory
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="zdravstvenipregledi/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="context.ZdravstveniPregled">
+    <PropertyColumn Property="zdravstvenipregled => zdravstvenipregled.Datum" />
+    <PropertyColumn Property="zdravstvenipregled => zdravstvenipregled.VeljavnoDo" />
+    <PropertyColumn Property="zdravstvenipregled => zdravstvenipregled.Opombe" />
+
+    <TemplateColumn Context="zdravstvenipregled">
+        <a href="@($"zdravstvenipregledi/edit?zdravstvenipregledid={zdravstvenipregled.ZdravstveniPregledId}")">Edit</a> |
+        <a href="@($"zdravstvenipregledi/details?zdravstvenipregledid={zdravstvenipregled.ZdravstveniPregledId}")">Details</a> |
+        <a href="@($"zdravstvenipregledi/delete?zdravstvenipregledid={zdravstvenipregled.ZdravstveniPregledId}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
+
+@code {
+    private Vulkan2Context context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}

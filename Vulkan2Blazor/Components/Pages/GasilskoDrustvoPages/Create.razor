@@ -1,0 +1,114 @@
+@page "/gasilskadrustva/create"
+@using Microsoft.EntityFrameworkCore
+@using Vulkan2Blazor.Models
+@inject IDbContextFactory<Vulkan2Blazor.Data.Vulkan2Context> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h2>GasilskoDrustvo</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="GasilskoDrustvo" OnValidSubmit="AddGasilskoDrustvo" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" role="alert"/>
+            <div class="mb-3">
+                <label for="naziv" class="form-label">Naziv:</label> 
+                <InputText id="naziv" @bind-Value="GasilskoDrustvo.Naziv" class="form-control" aria-required="true"/> 
+                <ValidationMessage For="() => GasilskoDrustvo.Naziv" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="tipdrustva" class="form-label">Tip društva:</label>
+                <InputSelect id="tipdrustva" @bind-Value="GasilskoDrustvo.TipDrustva" class="form-control">
+                    <option value="">Izberi tip društva</option>
+                    @foreach (var tip in Enum.GetValues(typeof(TipDrustva)))
+                    {
+                        <option value="@tip">@tip</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="() => GasilskoDrustvo.TipDrustva" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="naslov" class="form-label">Naslov:</label> 
+                <InputText id="naslov" @bind-Value="GasilskoDrustvo.Naslov" class="form-control" aria-required="true"/> 
+                <ValidationMessage For="() => GasilskoDrustvo.Naslov" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="posta" class="form-label">Poštna številka:</label> 
+                <InputText id="posta" @bind-Value="GasilskoDrustvo.Posta" class="form-control" aria-required="true"/> 
+                <ValidationMessage For="() => GasilskoDrustvo.Posta" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="kraj" class="form-label">Kraj:</label> 
+                <InputText id="kraj" @bind-Value="GasilskoDrustvo.Kraj" class="form-control" aria-required="true"/> 
+                <ValidationMessage For="() => GasilskoDrustvo.Kraj" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label> 
+                <InputText id="email" @bind-Value="GasilskoDrustvo.Email" class="form-control" /> 
+                <ValidationMessage For="() => GasilskoDrustvo.Email" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="telefon" class="form-label">Telefon:</label> 
+                <InputText id="telefon" @bind-Value="GasilskoDrustvo.Telefon" class="form-control" /> 
+                <ValidationMessage For="() => GasilskoDrustvo.Telefon" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="spletnastran" class="form-label">Spletna stran:</label> 
+                <InputText id="spletnastran" @bind-Value="GasilskoDrustvo.SpletnaStran" class="form-control" /> 
+                <ValidationMessage For="() => GasilskoDrustvo.SpletnaStran" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="maticnastevilka" class="form-label">Maticna številka:</label> 
+                <InputText id="maticnastevilka" @bind-Value="GasilskoDrustvo.MaticnaStevilka" class="form-control" aria-required="true"/> 
+                <ValidationMessage For="() => GasilskoDrustvo.MaticnaStevilka" class="text-danger" />
+            </div>        
+            <div class="mb-3">
+                <label for="davcnastevilka" class="form-label">Davcna številka:</label> 
+                <InputText id="davcnastevilka" @bind-Value="GasilskoDrustvo.DavcnaStevilka" class="form-control" aria-required="true"/> 
+                <ValidationMessage For="() => GasilskoDrustvo.DavcnaStevilka" class="text-danger" /> 
+            </div>
+            <div class="mb-3">
+                <label for="gasilskaZveza" class="form-label">Gasilska zveza:</label>
+                <InputSelect id="gasilskaZveza" @bind-Value="GasilskoDrustvo.GasilskaZveza" class="form-control">
+                    <option value="">Izberi gasilsko zvezo</option>
+                    @foreach (var gasilskaZveza in GasilskeZveze)
+                    {
+                        <option value="@gasilskaZveza.GasilskaZvezaId">@gasilskaZveza.Naziv</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="() => GasilskoDrustvo.GasilskaZveza" class="text-danger" />
+            </div>
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/gasilskadrustva">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private GasilskoDrustvo GasilskoDrustvo { get; set; } = new();
+
+    private List<GasilskaZveza> GasilskeZveze { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        GasilskeZveze = await context.GasilskaZveza.ToListAsync();
+    }
+    
+    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task AddGasilskoDrustvo()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.GasilskoDrustvo.Add(GasilskoDrustvo);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/gasilskadrustva");
+    }
+}

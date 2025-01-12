@@ -6,6 +6,11 @@ a, .btn-link {
     color: #006bb7;
 }
 
+.auth-links {
+    display: flex;
+    gap: 1rem; /* Adjust the gap as needed */
+}
+
 .btn-primary {
     color: #fff;
     background-color: #1b6ec2;
