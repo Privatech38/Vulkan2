@@ -75,11 +75,12 @@ app.MapRazorComponents<App>()
 app.MapAdditionalIdentityEndpoints();
     
     
-// Seed the database with roles
+// Seed the database with roles and users
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     await RoleSeeder.SeedRoles(services);
+    await UserSeeder.SeedAdminUser(services);
 }
 
 app.Run();
