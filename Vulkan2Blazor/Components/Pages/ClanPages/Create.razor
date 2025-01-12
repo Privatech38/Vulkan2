@@ -55,7 +55,33 @@
                 <label for="telefon" class="form-label">Telefon:</label> 
                 <InputText id="telefon" @bind-Value="Clan.Telefon" class="form-control" /> 
                 <ValidationMessage For="() => Clan.Telefon" class="text-danger" /> 
-            </div>        
+            </div>
+            <div class="mb-3">
+                <label for="gasilskoDrustvo" class="form-label">Gasilsko Drustvo:</label>
+                <InputSelect id="gaislskoDrustvo" @bind-Value="Clan.GasilskoDrustvo" class="form-control">
+                    <option value="">Izberi gasilsko drustvo</option>
+                    @foreach (var gasilskoDrustvo in GasilskoDrustva)
+                    {
+                        <option value="@gasilskoDrustvo.GasilskoDrustvoId">@gasilskoDrustvo.Naziv</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="() => Clan.GasilskoDrustvo" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="naslov" class="form-label">Naslov:</label>
+                <InputText id="naslov" @bind-Value="Clan.Naslov" class="form-control" />
+                <ValidationMessage For="() => Clan.Naslov" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="posta" class="form-label">Posta:</label>
+                <InputText id="posta" @bind-Value="Clan.Posta" class="form-control" />
+                <ValidationMessage For="() => Clan.Posta" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="kraj" class="form-label">Kraj:</label>
+                <InputText id="kraj" @bind-Value="Clan.Kraj" class="form-control" />
+                <ValidationMessage For="() => Clan.Kraj" class="text-danger" />
+            </div>
             <button type="submit" class="btn btn-primary">Create</button>
         </EditForm>
     </div>
@@ -68,6 +94,14 @@
 @code {
     [SupplyParameterFromForm]
     private Clan Clan { get; set; } = new();
+    
+    private List<GasilskoDrustvo> GasilskoDrustva { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        GasilskoDrustva = await context.GasilskoDrustvo.ToListAsync();
+    }
 
     // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
     private async Task AddClan()

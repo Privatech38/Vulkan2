@@ -1,0 +1,74 @@
+@page "/zdravstvenipregledi/create"
+@using Microsoft.EntityFrameworkCore
+@using Vulkan2Blazor.Models
+@using Vulkan2Blazor.Models.ClanAttributes
+@inject IDbContextFactory<Vulkan2Blazor.Data.Vulkan2Context> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h2>ZdravstveniPregled</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="ZdravstveniPregled" OnValidSubmit="AddZdravstveniPregled" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" role="alert"/>
+            <div class="mb-3">
+                <label for="datum" class="form-label">Datum:</label> 
+                <InputDate id="datum" @bind-Value="ZdravstveniPregled.Datum" class="form-control" aria-required="true"/> 
+                <ValidationMessage For="() => ZdravstveniPregled.Datum" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="clan" class="form-label">Član:</label>
+                <InputSelect id="clan" @bind-Value="ZdravstveniPregled.Clan" class="form-control">
+                    <option value="">Izberi gasilsko drustvo</option>
+                    @foreach (var clan in Clani)
+                    {
+                        <option value="@clan.ClanId">@clan.Ime @clan.Priimek (@clan.DatumRojstva)</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="() => ZdravstveniPregled.Clan" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="veljavnodo" class="form-label">VeljavnoDo:</label> 
+                <InputDate id="veljavnodo" @bind-Value="ZdravstveniPregled.VeljavnoDo" class="form-control" /> 
+                <ValidationMessage For="() => ZdravstveniPregled.VeljavnoDo" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="opombe" class="form-label">Opombe:</label> 
+                <InputText id="opombe" @bind-Value="ZdravstveniPregled.Opombe" class="form-control" /> 
+                <ValidationMessage For="() => ZdravstveniPregled.Opombe" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/zdravstvenipregledi">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private ZdravstveniPregled ZdravstveniPregled { get; set; } = new();
+    
+    private List<Clan> Clani { get; set; } = new();
+    
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        Clani = await context.Clan.ToListAsync();
+    }
+
+    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task AddZdravstveniPregled()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.ZdravstveniPregled.Add(ZdravstveniPregled);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/zdravstvenipregledi");
+    }
+}

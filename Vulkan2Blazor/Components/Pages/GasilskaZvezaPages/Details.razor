@@ -1,0 +1,64 @@
+@page "/gasilskezveze/details"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.EntityFrameworkCore
+@using Vulkan2Blazor.Models
+@inject IDbContextFactory<Vulkan2Blazor.Data.Vulkan2Context> DbFactory
+@inject NavigationManager NavigationManager
+@attribute [Authorize (Roles = "Admin")]
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h2>GasilskaZveza</h2>
+    <hr />
+    @if (gasilskazveza is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Naziv</dt>
+            <dd class="col-sm-10">@gasilskazveza.Naziv</dd>
+            <dt class="col-sm-2">Naslov</dt>
+            <dd class="col-sm-10">@gasilskazveza.Naslov</dd>
+            <dt class="col-sm-2">Posta</dt>
+            <dd class="col-sm-10">@gasilskazveza.Posta</dd>
+            <dt class="col-sm-2">Kraj</dt>
+            <dd class="col-sm-10">@gasilskazveza.Kraj</dd>
+            <dt class="col-sm-2">Email</dt>
+            <dd class="col-sm-10">@gasilskazveza.Email</dd>
+            <dt class="col-sm-2">Telefon</dt>
+            <dd class="col-sm-10">@gasilskazveza.Telefon</dd>
+            <dt class="col-sm-2">SpletnaStran</dt>
+            <dd class="col-sm-10">@gasilskazveza.SpletnaStran</dd>
+            <dt class="col-sm-2">MaticnaStevilka</dt>
+            <dd class="col-sm-10">@gasilskazveza.MaticnaStevilka</dd>
+            <dt class="col-sm-2">DavcnaStevilka</dt>
+            <dd class="col-sm-10">@gasilskazveza.DavcnaStevilka</dd>
+        </dl>
+        <div>
+            <a href="@($"/gasilskezveze/edit?gasilskazvezaid={gasilskazveza.GasilskaZvezaId}")">Edit</a> |
+            <a href="@($"/gasilskezveze")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    private GasilskaZveza? gasilskazveza;
+
+    [SupplyParameterFromQuery]
+    private int GasilskaZvezaId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        gasilskazveza = await context.GasilskaZveza.FirstOrDefaultAsync(m => m.GasilskaZvezaId == GasilskaZvezaId);
+
+        if (gasilskazveza is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

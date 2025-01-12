@@ -1,0 +1,86 @@
+@page "/gasilskezveze/create"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.EntityFrameworkCore
+@using Vulkan2Blazor.Models
+@inject IDbContextFactory<Vulkan2Blazor.Data.Vulkan2Context> DbFactory
+@inject NavigationManager NavigationManager
+@attribute [Authorize(Roles = "Admin")]
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h2>GasilskaZveza</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="GasilskaZveza" OnValidSubmit="AddGasilskaZveza" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" role="alert"/>
+            <div class="mb-3">
+                <label for="naziv" class="form-label">Naziv:</label> 
+                <InputText id="naziv" @bind-Value="GasilskaZveza.Naziv" class="form-control" aria-required="true"/> 
+                <ValidationMessage For="() => GasilskaZveza.Naziv" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="naslov" class="form-label">Naslov:</label> 
+                <InputText id="naslov" @bind-Value="GasilskaZveza.Naslov" class="form-control" aria-required="true"/> 
+                <ValidationMessage For="() => GasilskaZveza.Naslov" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="posta" class="form-label">Posta:</label> 
+                <InputText id="posta" @bind-Value="GasilskaZveza.Posta" class="form-control" aria-required="true"/> 
+                <ValidationMessage For="() => GasilskaZveza.Posta" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="kraj" class="form-label">Kraj:</label> 
+                <InputText id="kraj" @bind-Value="GasilskaZveza.Kraj" class="form-control" aria-required="true"/> 
+                <ValidationMessage For="() => GasilskaZveza.Kraj" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label> 
+                <InputText id="email" @bind-Value="GasilskaZveza.Email" class="form-control" /> 
+                <ValidationMessage For="() => GasilskaZveza.Email" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="telefon" class="form-label">Telefon:</label> 
+                <InputText id="telefon" @bind-Value="GasilskaZveza.Telefon" class="form-control" /> 
+                <ValidationMessage For="() => GasilskaZveza.Telefon" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="spletnastran" class="form-label">SpletnaStran:</label> 
+                <InputText id="spletnastran" @bind-Value="GasilskaZveza.SpletnaStran" class="form-control" /> 
+                <ValidationMessage For="() => GasilskaZveza.SpletnaStran" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="maticnastevilka" class="form-label">MaticnaStevilka:</label> 
+                <InputText id="maticnastevilka" @bind-Value="GasilskaZveza.MaticnaStevilka" class="form-control" aria-required="true"/> 
+                <ValidationMessage For="() => GasilskaZveza.MaticnaStevilka" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="davcnastevilka" class="form-label">DavcnaStevilka:</label> 
+                <InputText id="davcnastevilka" @bind-Value="GasilskaZveza.DavcnaStevilka" class="form-control" aria-required="true"/> 
+                <ValidationMessage For="() => GasilskaZveza.DavcnaStevilka" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/gasilskezveze">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private GasilskaZveza GasilskaZveza { get; set; } = new();
+
+    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task AddGasilskaZveza()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.GasilskaZveza.Add(GasilskaZveza);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/gasilskezveze");
+    }
+}

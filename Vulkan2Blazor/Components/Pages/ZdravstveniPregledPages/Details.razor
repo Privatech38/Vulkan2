@@ -1,0 +1,50 @@
+@page "/zdravstvenipregledi/details"
+@using Microsoft.EntityFrameworkCore
+@using Vulkan2Blazor.Models.ClanAttributes
+@inject IDbContextFactory<Vulkan2Blazor.Data.Vulkan2Context> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h2>ZdravstveniPregled</h2>
+    <hr />
+    @if (zdravstvenipregled is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Datum</dt>
+            <dd class="col-sm-10">@zdravstvenipregled.Datum</dd>
+            <dt class="col-sm-2">VeljavnoDo</dt>
+            <dd class="col-sm-10">@zdravstvenipregled.VeljavnoDo</dd>
+            <dt class="col-sm-2">Opombe</dt>
+            <dd class="col-sm-10">@zdravstvenipregled.Opombe</dd>
+        </dl>
+        <div>
+            <a href="@($"/zdravstvenipregledi/edit?zdravstvenipregledid={zdravstvenipregled.ZdravstveniPregledId}")">Edit</a> |
+            <a href="@($"/zdravstvenipregledi")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    private ZdravstveniPregled? zdravstvenipregled;
+
+    [SupplyParameterFromQuery]
+    private int ZdravstveniPregledId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        zdravstvenipregled = await context.ZdravstveniPregled.FirstOrDefaultAsync(m => m.ZdravstveniPregledId == ZdravstveniPregledId);
+
+        if (zdravstvenipregled is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

@@ -1,0 +1,46 @@
+@page "/gasilskezveze"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using Vulkan2Blazor.Models
+@using Vulkan2Blazor.Data
+@implements IAsyncDisposable
+@inject IDbContextFactory<Vulkan2Blazor.Data.Vulkan2Context> DbFactory
+@attribute [Authorize(Roles = "Admin")]
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="gasilskezveze/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="context.GasilskaZveza">
+    <PropertyColumn Property="gasilskazveza => gasilskazveza.Naziv" />
+    <PropertyColumn Property="gasilskazveza => gasilskazveza.Naslov" />
+    <PropertyColumn Property="gasilskazveza => gasilskazveza.Posta" />
+    <PropertyColumn Property="gasilskazveza => gasilskazveza.Kraj" />
+    <PropertyColumn Property="gasilskazveza => gasilskazveza.Email" />
+    <PropertyColumn Property="gasilskazveza => gasilskazveza.Telefon" />
+    <PropertyColumn Property="gasilskazveza => gasilskazveza.SpletnaStran" />
+    <PropertyColumn Property="gasilskazveza => gasilskazveza.MaticnaStevilka" />
+    <PropertyColumn Property="gasilskazveza => gasilskazveza.DavcnaStevilka" />
+
+    <TemplateColumn Context="gasilskazveza">
+        <a href="@($"gasilskezveze/edit?gasilskazvezaid={gasilskazveza.GasilskaZvezaId}")">Edit</a> |
+        <a href="@($"gasilskezveze/details?gasilskazvezaid={gasilskazveza.GasilskaZvezaId}")">Details</a> |
+        <a href="@($"gasilskezveze/delete?gasilskazvezaid={gasilskazveza.GasilskaZvezaId}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
+
+@code {
+    private Vulkan2Context context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}
