@@ -1,0 +1,129 @@
+@page "/gasilskazvezas/edit"
+@using Microsoft.EntityFrameworkCore
+@using Vulkan2Blazor.Models
+@inject IDbContextFactory<Vulkan2Blazor.Data.Vulkan2Context> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h2>GasilskaZveza</h2>
+<hr />
+@if (GasilskaZveza is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="GasilskaZveza" OnValidSubmit="UpdateGasilskaZveza" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary role="alert"/>
+                <input type="hidden" name="GasilskaZveza.GasilskaZvezaId" value="@GasilskaZveza.GasilskaZvezaId" />
+                <div class="mb-3">
+                    <label for="naziv" class="form-label">Naziv:</label>
+                    <InputText id="naziv" @bind-Value="GasilskaZveza.Naziv" class="form-control" aria-required="true"/>
+                    <ValidationMessage For="() => GasilskaZveza.Naziv" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="naslov" class="form-label">Naslov:</label>
+                    <InputText id="naslov" @bind-Value="GasilskaZveza.Naslov" class="form-control" aria-required="true"/>
+                    <ValidationMessage For="() => GasilskaZveza.Naslov" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="posta" class="form-label">Posta:</label>
+                    <InputText id="posta" @bind-Value="GasilskaZveza.Posta" class="form-control" aria-required="true"/>
+                    <ValidationMessage For="() => GasilskaZveza.Posta" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="kraj" class="form-label">Kraj:</label>
+                    <InputText id="kraj" @bind-Value="GasilskaZveza.Kraj" class="form-control" aria-required="true"/>
+                    <ValidationMessage For="() => GasilskaZveza.Kraj" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <InputText id="email" @bind-Value="GasilskaZveza.Email" class="form-control" />
+                    <ValidationMessage For="() => GasilskaZveza.Email" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="telefon" class="form-label">Telefon:</label>
+                    <InputText id="telefon" @bind-Value="GasilskaZveza.Telefon" class="form-control" />
+                    <ValidationMessage For="() => GasilskaZveza.Telefon" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="spletnastran" class="form-label">SpletnaStran:</label>
+                    <InputText id="spletnastran" @bind-Value="GasilskaZveza.SpletnaStran" class="form-control" />
+                    <ValidationMessage For="() => GasilskaZveza.SpletnaStran" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="maticnastevilka" class="form-label">MaticnaStevilka:</label>
+                    <InputText id="maticnastevilka" @bind-Value="GasilskaZveza.MaticnaStevilka" class="form-control" aria-required="true"/>
+                    <ValidationMessage For="() => GasilskaZveza.MaticnaStevilka" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="davcnastevilka" class="form-label">DavcnaStevilka:</label>
+                    <InputText id="davcnastevilka" @bind-Value="GasilskaZveza.DavcnaStevilka" class="form-control" aria-required="true"/>
+                    <ValidationMessage For="() => GasilskaZveza.DavcnaStevilka" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/gasilskazvezas">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    private int GasilskaZvezaId { get; set; }
+
+    [SupplyParameterFromForm]
+    private GasilskaZveza? GasilskaZveza { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        GasilskaZveza ??= await context.GasilskaZveza.FirstOrDefaultAsync(m => m.GasilskaZvezaId == GasilskaZvezaId);
+
+        if (GasilskaZveza is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task UpdateGasilskaZveza()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Attach(GasilskaZveza!).State = EntityState.Modified;
+
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!GasilskaZvezaExists(GasilskaZveza!.GasilskaZvezaId))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/gasilskazvezas");
+    }
+
+    private bool GasilskaZvezaExists(int gasilskazvezaid)
+    {
+        using var context = DbFactory.CreateDbContext();
+        return context.GasilskaZveza.Any(e => e.GasilskaZvezaId == gasilskazvezaid);
+    }
+}
