@@ -11,7 +11,7 @@
 <h1>Index</h1>
 
 <p>
-    <a href="zdravstvenipregleds/create">Create New</a>
+    <a href="zdravstvenipregledi/create">Create New</a>
 </p>
 
 <QuickGrid Class="table" Items="context.ZdravstveniPregled">
@@ -20,9 +20,9 @@
     <PropertyColumn Property="zdravstvenipregled => zdravstvenipregled.Opombe" />
 
     <TemplateColumn Context="zdravstvenipregled">
-        <a href="@($"zdravstvenipregleds/edit?zdravstvenipregledid={zdravstvenipregled.ZdravstveniPregledId}")">Edit</a> |
-        <a href="@($"zdravstvenipregleds/details?zdravstvenipregledid={zdravstvenipregled.ZdravstveniPregledId}")">Details</a> |
-        <a href="@($"zdravstvenipregleds/delete?zdravstvenipregledid={zdravstvenipregled.ZdravstveniPregledId}")">Delete</a>
+        <a href="@($"zdravstvenipregledi/edit?zdravstvenipregledid={zdravstvenipregled.ZdravstveniPregledId}")">Edit</a> |
+        <a href="@($"zdravstvenipregledi/details?zdravstvenipregledid={zdravstvenipregled.ZdravstveniPregledId}")">Details</a> |
+        <a href="@($"zdravstvenipregledi/delete?zdravstvenipregledid={zdravstvenipregled.ZdravstveniPregledId}")">Delete</a>
     </TemplateColumn>
 </QuickGrid>
 

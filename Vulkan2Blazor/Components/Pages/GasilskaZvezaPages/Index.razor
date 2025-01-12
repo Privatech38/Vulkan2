@@ -13,7 +13,7 @@
 <h1>Index</h1>
 
 <p>
-    <a href="gasilskazvezas/create">Create New</a>
+    <a href="gasilskezveze/create">Create New</a>
 </p>
 
 <QuickGrid Class="table" Items="context.GasilskaZveza">
@@ -28,9 +28,9 @@
     <PropertyColumn Property="gasilskazveza => gasilskazveza.DavcnaStevilka" />
 
     <TemplateColumn Context="gasilskazveza">
-        <a href="@($"gasilskazvezas/edit?gasilskazvezaid={gasilskazveza.GasilskaZvezaId}")">Edit</a> |
-        <a href="@($"gasilskazvezas/details?gasilskazvezaid={gasilskazveza.GasilskaZvezaId}")">Details</a> |
-        <a href="@($"gasilskazvezas/delete?gasilskazvezaid={gasilskazveza.GasilskaZvezaId}")">Delete</a>
+        <a href="@($"gasilskezveze/edit?gasilskazvezaid={gasilskazveza.GasilskaZvezaId}")">Edit</a> |
+        <a href="@($"gasilskezveze/details?gasilskazvezaid={gasilskazveza.GasilskaZvezaId}")">Details</a> |
+        <a href="@($"gasilskezveze/delete?gasilskazvezaid={gasilskazveza.GasilskaZvezaId}")">Delete</a>
     </TemplateColumn>
 </QuickGrid>
 
