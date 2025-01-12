@@ -13,6 +13,9 @@ public class GasilskoDrustvo
     public int GasilskoDrustvoId { get; set; }
     
     [Required]
+    public string Naziv { get; set; }
+    
+    [Required]
     public TipDrustva TipDrustva { get; set; }
     
     // Naslov

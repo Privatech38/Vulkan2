@@ -16,5 +16,6 @@ namespace Vulkan2Blazor.Data
         }
 
         public DbSet<Vulkan2Blazor.Models.Clan> Clan { get; set; } = default!;
+        public DbSet<Vulkan2Blazor.Models.GasilskoDrustvo> GasilskoDrustvo { get; set; } = default!;
     }
 }
