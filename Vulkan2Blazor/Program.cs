@@ -27,8 +27,19 @@ builder.Services.AddAuthentication(options =>
     })
     .AddIdentityCookies();
 
-builder.Services.AddDbContextFactory<Vulkan2Context>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Vulkan2Context") ?? throw new InvalidOperationException("Connection string 'Vulkan2Context' not found.")));
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddDbContextFactory<Vulkan2Context>(options =>
+        options.UseNpgsql(builder.Configuration.GetConnectionString("Vulkan2Context") ??
+                          throw new InvalidOperationException("Connection string 'Vulkan2Context' not found.")));
+}
+else
+{
+    builder.Services.AddDbContextFactory<Vulkan2Context>(options =>
+        options.UseNpgsql(Environment.GetEnvironmentVariable("AZURE_POSTGRESQL_CONNECTIONSTRING") ??
+                          throw new InvalidOperationException("Connection string 'AZURE_POSTGRESQL_CONNECTIONSTRING' not found.")));
+}
+;
 
 builder.Services.AddQuickGridEntityFrameworkAdapter();
 
