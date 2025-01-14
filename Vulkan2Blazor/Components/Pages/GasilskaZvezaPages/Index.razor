@@ -19,13 +19,13 @@
 <QuickGrid Class="table" Items="context.GasilskaZveza">
     <PropertyColumn Property="gasilskazveza => gasilskazveza.Naziv" />
     <PropertyColumn Property="gasilskazveza => gasilskazveza.Naslov" />
-    <PropertyColumn Property="gasilskazveza => gasilskazveza.Posta" />
+    <PropertyColumn Property="gasilskazveza => gasilskazveza.Posta" Title="Poštna številka"/>
     <PropertyColumn Property="gasilskazveza => gasilskazveza.Kraj" />
     <PropertyColumn Property="gasilskazveza => gasilskazveza.Email" />
     <PropertyColumn Property="gasilskazveza => gasilskazveza.Telefon" />
-    <PropertyColumn Property="gasilskazveza => gasilskazveza.SpletnaStran" />
-    <PropertyColumn Property="gasilskazveza => gasilskazveza.MaticnaStevilka" />
-    <PropertyColumn Property="gasilskazveza => gasilskazveza.DavcnaStevilka" />
+    <PropertyColumn Property="gasilskazveza => gasilskazveza.SpletnaStran" Title="Spletna stran"/>
+    <PropertyColumn Property="gasilskazveza => gasilskazveza.MaticnaStevilka" Title="Matična številka"/>
+    <PropertyColumn Property="gasilskazveza => gasilskazveza.DavcnaStevilka" Title="Davčna številka"/>
 
     <TemplateColumn Context="gasilskazveza">
         <a href="@($"gasilskezveze/edit?gasilskazvezaid={gasilskazveza.GasilskaZvezaId}")">Edit</a> |
