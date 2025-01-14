@@ -39,6 +39,6 @@ public class GasilskaZveza
     [RegularExpression(@"^\d{8}$", ErrorMessage = "Davčna številka mora biti dolga točno 8 števk.")]
     public string DavcnaStevilka { get; set; }
     
-    public ICollection<GasilskoDrustvo> GasilskaDrustva { get; }
+    public virtual ICollection<GasilskoDrustvo> GasilskaDrustva { get; }
     
 }

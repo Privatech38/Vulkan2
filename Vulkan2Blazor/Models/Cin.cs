@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Vulkan2Blazor.Models;
 
@@ -73,5 +74,8 @@ public class Cin
     public DateOnly OdDatum { get; set; }
     
     [Required]
-    public Clan Clan { get; set; }
+    [ForeignKey("Clan")]
+    public int ClanId { get; set; }
+    
+    public virtual Clan Clan { get; set; }
 }
