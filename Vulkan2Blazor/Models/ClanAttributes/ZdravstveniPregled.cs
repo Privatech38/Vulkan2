@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Vulkan2Blazor.Models.ClanAttributes;
 
@@ -7,7 +8,10 @@ public class ZdravstveniPregled
     public int ZdravstveniPregledId { get; set; }
     
     [Required]
-    public Clan Clan { get; set; }
+    [ForeignKey("Clan")]
+    public int ClanId { get; set; }
+    
+    public virtual Clan Clan { get; set; }
     
     [Required]
     public DateOnly Datum { get; set; }
