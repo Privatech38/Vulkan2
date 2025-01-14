@@ -1,0 +1,36 @@
+﻿services:
+  vulkan2blazor:
+    image: privatech/vulkan2:main
+    ports:
+        - "8080:80"
+    environment:
+        - ConnectionStrings__Vulkan2Context=Host=postgres;Port=5432;Database=vulkan;Username=postgres;Password_file=/run/secrets/db-password
+    depends_on:
+      postgres:
+        condition: service_healthy
+      
+  postgres:
+    image: postgres
+    restart: always
+    user: postgres
+    secrets:
+      - db-password
+    environment:
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+      - POSTGRES_DB=vulkan
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+        
+volumes:
+    postgres:
+secrets:
+  db-password:
+      file: db-password.txt
+
