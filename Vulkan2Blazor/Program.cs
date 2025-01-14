@@ -28,7 +28,8 @@ builder.Services.AddAuthentication(options =>
     .AddIdentityCookies();
 
 builder.Services.AddDbContextFactory<Vulkan2Context>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Vulkan2Context") ?? throw new InvalidOperationException("Connection string 'Vulkan2Context' not found.")));
+        options.UseNpgsql(builder.Configuration.GetConnectionString("Vulkan2Context") ??
+                          throw new InvalidOperationException("Connection string 'Vulkan2Context' not found.")));
 
 builder.Services.AddQuickGridEntityFrameworkAdapter();
 
@@ -48,7 +49,16 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
+builder.Services.AddControllers();
+
 var app = builder.Build();
+
+// Apply migrations on startup
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<Vulkan2Context>();
+    dbContext.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -71,6 +81,8 @@ app.UseAntiforgery();
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+app.MapBlazorHub();
+app.MapControllers();
 
 // Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();
