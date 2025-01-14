@@ -1,18 +1,21 @@
 ﻿services:
   vulkan2blazor:
-    image: vulkan2blazor:latest
+    image: vulkan2blazor
+    build:
+      context: .
+      dockerfile: Vulkan2Blazor/Dockerfile
     ports:
-        - "8080:8080"
+      - "8080:8080"
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
-#      ASPNETCORE_URLS: "http://localhost:8080"
+      #      ASPNETCORE_URLS: "http://localhost:8080"
       ConnectionStrings__Vulkan2Context: 'Host=postgres;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}'
     depends_on:
       postgres:
         condition: service_healthy
-#    volumes:
-#      - vulkan2:/home/app/.aspnet/DataProtection-Keys
-      
+      #    volumes:
+      #      - vulkan2:/home/app/.aspnet/DataProtection-Keys
+  
   postgres:
     image: postgres
     restart: always
@@ -28,8 +31,8 @@
       interval: 10s
       timeout: 5s
       retries: 5
-        
+
 volumes:
-    postgres:
+  postgres:
 #    vulkan2:
 
