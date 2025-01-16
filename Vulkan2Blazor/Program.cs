@@ -94,6 +94,8 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     await RoleSeeder.SeedRoles(services);
     await UserSeeder.SeedAdminUser(services);
+    await GasilskaZvezaSeeder.SeedGasilskaZveza(services);
+    await GasilskoDrustvoSeeder.SeedGasilskoDrustvo(services);
 }
 
 app.Run();

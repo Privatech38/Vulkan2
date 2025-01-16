@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Vulkan2Blazor.Models.ClanAttributes;
 
 namespace Vulkan2Blazor.Models;
@@ -30,7 +31,10 @@ public class Clan
     
     // Drustvo
     [Required]
-    public GasilskoDrustvo GasilskoDrustvo { get; set; }
+    [ForeignKey("GasilskoDrustvo")]
+    public int GasilskoDrustvoId { get; set; }
+    
+    public virtual GasilskoDrustvo GasilskoDrustvo { get; set; }
     
     // Cini
     public ICollection<Cin> Cini { get; }

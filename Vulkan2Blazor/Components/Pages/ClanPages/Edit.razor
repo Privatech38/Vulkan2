@@ -63,8 +63,8 @@ else
                     <ValidationMessage For="() => Clan.Telefon" class="text-danger" />
                 </div>
                 <div class="mb-3">
-                    <label for="gasilskoDrustvo" class="form-label">Gasilsko Drustvo:</label>
-                    <InputSelect id="gaislskoDrustvo" @bind-Value="Clan.GasilskoDrustvo" class="form-control">
+                    <label for="gasilskoDrustvo" class="form-label">Gasilsko Društvo:</label>
+                    <InputSelect id="gaislskoDrustvo" @bind-Value="Clan.GasilskoDrustvoId" class="form-control">
                         <option value="">Izberi gasilsko drustvo</option>
                         @foreach (var gasilskoDrustvo in GasilskaDrustva)
                         {
@@ -79,7 +79,7 @@ else
                     <ValidationMessage For="() => Clan.Naslov" class="text-danger" />
                 </div>
                 <div class="mb-3">
-                    <label for="posta" class="form-label">Posta:</label>
+                    <label for="posta" class="form-label">Poštna številka:</label>
                     <InputText id="posta" @bind-Value="Clan.Posta" class="form-control" />
                     <ValidationMessage For="() => Clan.Posta" class="text-danger" />
                 </div>

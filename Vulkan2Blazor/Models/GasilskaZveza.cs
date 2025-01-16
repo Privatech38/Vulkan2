@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Vulkan2Blazor.Models;
 
@@ -14,6 +15,7 @@ public class GasilskaZveza
     public string Naslov { get; set; }
     
     [Required]
+    [DisplayName("Poštna številka")]
     [RegularExpression(@"^\d{4}$", ErrorMessage = "Poštna številka mora biti dolga točno 4 števke.")]
     public string Posta { get; set; }
     
@@ -28,17 +30,20 @@ public class GasilskaZveza
     public string? Telefon { get; set; }
     
     [Url]
+    [DisplayName("Spletna stran")]
     public string? SpletnaStran { get; set; }
     
     // Podatki
     [Required]
+    [DisplayName("Matična številka")]
     [RegularExpression(@"^\d{10}$", ErrorMessage = "Matična številka mora biti dolga točno 10 števk.")]
     public string MaticnaStevilka { get; set; }
         
     [Required]
+    [DisplayName("Davčna številka")]
     [RegularExpression(@"^\d{8}$", ErrorMessage = "Davčna številka mora biti dolga točno 8 števk.")]
     public string DavcnaStevilka { get; set; }
     
-    public ICollection<GasilskoDrustvo> GasilskaDrustva { get; }
+    public virtual ICollection<GasilskoDrustvo> GasilskaDrustva { get; }
     
 }

@@ -18,13 +18,13 @@
     <PropertyColumn Property="gasilskodrustvo => gasilskodrustvo.Naziv" />
     <PropertyColumn Property="gasilskodrustvo => gasilskodrustvo.TipDrustva" />
     <PropertyColumn Property="gasilskodrustvo => gasilskodrustvo.Naslov" />
-    <PropertyColumn Property="gasilskodrustvo => gasilskodrustvo.Posta" />
+    <PropertyColumn Property="gasilskodrustvo => gasilskodrustvo.Posta" Title="Poštna številka"/>
     <PropertyColumn Property="gasilskodrustvo => gasilskodrustvo.Kraj" />
     <PropertyColumn Property="gasilskodrustvo => gasilskodrustvo.Email" />
     <PropertyColumn Property="gasilskodrustvo => gasilskodrustvo.Telefon" />
-    <PropertyColumn Property="gasilskodrustvo => gasilskodrustvo.SpletnaStran" />
-    <PropertyColumn Property="gasilskodrustvo => gasilskodrustvo.MaticnaStevilka" />
-    <PropertyColumn Property="gasilskodrustvo => gasilskodrustvo.DavcnaStevilka" />
+    <PropertyColumn Property="gasilskodrustvo => gasilskodrustvo.SpletnaStran" Title="Spletna stran"/>
+    <PropertyColumn Property="gasilskodrustvo => gasilskodrustvo.MaticnaStevilka" Title="Matična številka"/>
+    <PropertyColumn Property="gasilskodrustvo => gasilskodrustvo.DavcnaStevilka" Title="Davčna številka"/>
 
     <TemplateColumn Context="gasilskodrustvo">
         <a href="@($"gasilskadrustva/edit?gasilskodrustvoid={gasilskodrustvo.GasilskoDrustvoId}")">Edit</a> |

@@ -1,4 +1,5 @@
-﻿using Microsoft.Build.Framework;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.Build.Framework;
 
 namespace Vulkan2Blazor.Models;
 
@@ -7,10 +8,16 @@ public class Clanstvo
     public int ClanstvoId { get; set; }
     
     [Required]
-    public Clan Clan { get; set; }
+    [ForeignKey("Clan")]
+    public int ClanId { get; set; }
+    
+    public virtual Clan Clan { get; set; }
     
     [Required]
-    public GasilskoDrustvo GasilskoDrustvo { get; set; }
+    [ForeignKey("GasilskoDrustvo")]
+    public int GasilskoDrustvoId { get; set; }
+    
+    public virtual GasilskoDrustvo GasilskoDrustvo { get; set; }
     
     [Required]
     public DateOnly OdDatum { get; set; }

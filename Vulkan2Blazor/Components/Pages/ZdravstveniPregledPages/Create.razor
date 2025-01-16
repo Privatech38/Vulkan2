@@ -23,7 +23,7 @@
             </div>        
             <div class="mb-3">
                 <label for="clan" class="form-label">Član:</label>
-                <InputSelect id="clan" @bind-Value="ZdravstveniPregled.Clan" class="form-control">
+                <InputSelect id="clan" @bind-Value="ZdravstveniPregled.ClanId" class="form-control">
                     <option value="">Izberi gasilsko drustvo</option>
                     @foreach (var clan in Clani)
                     {
