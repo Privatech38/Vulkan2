@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Vulkan2Blazor;
 using Vulkan2Blazor.Components;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +31,13 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddDbContextFactory<Vulkan2Context>(options =>
         options.UseNpgsql(builder.Configuration.GetConnectionString("Vulkan2Context") ??
                           throw new InvalidOperationException("Connection string 'Vulkan2Context' not found.")));
+
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("RedisConnection") ??
+                           throw new InvalidOperationException("Connection string 'RedisConnection' not found.");
+    options.InstanceName = "RedisInstance";
+});
 
 builder.Services.AddQuickGridEntityFrameworkAdapter();
 
@@ -95,5 +103,15 @@ using (var scope = app.Services.CreateScope())
     await RoleSeeder.SeedRoles(services);
     await UserSeeder.SeedAdminUser(services);
 }
+
+app.Lifetime.ApplicationStarted.Register(() =>
+{
+    var currentTimeUTC = DateTime.UtcNow.ToString();
+    byte[] encodedCurrentTimeUTC = System.Text.Encoding.UTF8.GetBytes(currentTimeUTC);
+    var options = new DistributedCacheEntryOptions()
+        .SetSlidingExpiration(TimeSpan.FromSeconds(20));
+    app.Services.GetService<IDistributedCache>()
+        .Set("cachedTimeUTC", encodedCurrentTimeUTC, options);
+});
 
 app.Run();
