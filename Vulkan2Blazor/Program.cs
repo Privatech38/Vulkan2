@@ -51,7 +51,11 @@ builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSe
 
 builder.Services.AddControllers();
 
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
+
+app.MapHealthChecks("/healthz");
 
 // Apply migrations on startup
 using (var scope = app.Services.CreateScope())
